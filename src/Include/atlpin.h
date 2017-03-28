@@ -20,7 +20,7 @@ class Pin {
 		const atl::Port _port;
 		const uint8_t _mask;
 		public:
-		constexpr PinDirection(const atl::Port& port, const int pin) : _pin(pin), _port(port), _mask(1 << _pin){}
+		constexpr PinDirection(const atl::Port& port, const int pin) : _pin(pin), _port(port), _mask(1 << pin) { }
 
 		void operator = (const DirectionMode mode) const {
 			switch(mode) {
