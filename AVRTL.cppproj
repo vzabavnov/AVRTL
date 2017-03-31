@@ -156,10 +156,16 @@
     <Folder Include="Include" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Include\atlexpr.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Include\atlpin.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Include\atlport.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Include\atlstd.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

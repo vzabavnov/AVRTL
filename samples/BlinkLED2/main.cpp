@@ -13,6 +13,7 @@
 #include <util/delay.h>
 
 #include <atlpin.h>
+#include <atlstd.h>
 
 int main(void)
 {

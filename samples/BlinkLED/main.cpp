@@ -12,13 +12,13 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include <atlport.h>
-
+#include <atlexpr.h>
+#include <atlstd.h>
 
 int main(void)
 {
 	const atl::Port thePort = atl::std::PortB;
-	const int pinMask = (1 << 3);
+	const int pinMask = atl::expr::CreateBitMask(3);
     thePort.Direction = atl::Output;
 
     while (1) 
