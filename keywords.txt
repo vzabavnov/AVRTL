@@ -1,0 +1,4 @@
+# Arduino IDE doesn't normally hilight 'constexpr'. We hilight it as a datatype
+
+constexpr KEYWORD1
+
