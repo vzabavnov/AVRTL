@@ -23,7 +23,7 @@ public:
 	
 	constexpr PinDirection(const atl::Port& port, const int pin) : _pin(pin), _port(port), Mask(expr::CreateBitMask(pin)) { }
 
-	void operator = (const DirectionMode mode) const {
+	void inline operator = (const DirectionMode mode) const {
 		switch(mode) {
 			case Input:
 				AsInput();

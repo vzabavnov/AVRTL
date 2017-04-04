@@ -15,21 +15,31 @@
 #include <atlpin.h>
 #include <atlstd.h>
 
+const atl::Pin redLED = atl::Pin(atl::std::PortB, 2);
+const atl::Pin GreenLed = atl::Pin(atl::std::PortB, 3);
+const atl::Pin YellowLED = atl::Pin(atl::std::PortB, 4);
+
 int main(void)
 {
-    const atl::Pin redLED = atl::Pin(atl::std::PortB, 3);
-    const atl::Pin GreenLed = atl::Pin(atl::std::PortB, 4);
-
 	redLED.Direction = atl::Output;
 	GreenLed.Direction = atl::Output;
+	YellowLED.Direction = atl::Output;
 
-	redLED.Set();
-	GreenLed.Clear();
+	redLED.Clear();
+	GreenLed.Set();
+	YellowLED.Set();
+
     while (1) 
     {
 		_delay_ms(1000);
 		redLED.Flip();
 		GreenLed.Flip();
-    }
+		_delay_ms(1000);
+		GreenLed.Flip();
+		YellowLED.Flip();
+		_delay_ms(1000);
+		YellowLED.Flip();
+		redLED.Flip();
+	}
 }
 
