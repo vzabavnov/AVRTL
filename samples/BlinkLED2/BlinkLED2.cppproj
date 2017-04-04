@@ -74,7 +74,7 @@
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.2.118\include</Value>
-      <Value>../../../src/Include</Value>
+      <Value>../../../Include</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.level>Optimize more (-O2)</avrgcccpp.compiler.optimization.level>
@@ -131,7 +131,7 @@
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\ATtiny_DFP\1.2.118\include</Value>
-      <Value>../../../src/Include</Value>
+      <Value>../../../Include</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.level>Optimize debugging experience (-Og)</avrgcccpp.compiler.optimization.level>

@@ -8,7 +8,7 @@
 #ifndef ATLSTD_H_
 #define ATLSTD_H_
 
-#include "atlport.h"
+#include <atlport.h>
 
 namespace atl {
 namespace std {

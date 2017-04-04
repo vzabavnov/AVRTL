@@ -151,6 +151,7 @@
         <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
       </AvrGccCpp>
     </ToolchainSettings>
+    <PostBuildEvent>@copy $(MSBuildProjectDirectory)\Include\* $(MSBuildProjectDirectory)\avrtl\src\ &gt; nul</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Include" />

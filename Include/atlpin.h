@@ -9,8 +9,8 @@
 #ifndef ATLPIN_H_
 #define ATLPIN_H_
 
-#include "atlport.h"
-#include "atlexpr.h"
+#include <atlport.h>
+#include <atlexpr.h>
 
 namespace atl
 {
