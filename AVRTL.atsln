@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "AVRTL", "AVRTL.cppproj", "{B5A692B8-9DCB-40B7-8BDF-EE24520B1A67}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C1FDA463-95A1-443B-824B-3DA29A0DF5FD}"
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "BlinkLED", "samples\BlinkLED\BlinkLED.cppproj", "{8512D582-CD9E-4F92-8CBD-D47F100302E8}"
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "BlinkLED2", "samples\BlinkLED2\BlinkLED2.cppproj", "{1C866D1D-C187-4940-9130-4A0C7F1966E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5A692B8-9DCB-40B7-8BDF-EE24520B1A67}.Debug|AVR.ActiveCfg = Debug|AVR
+		{B5A692B8-9DCB-40B7-8BDF-EE24520B1A67}.Debug|AVR.Build.0 = Debug|AVR
+		{B5A692B8-9DCB-40B7-8BDF-EE24520B1A67}.Release|AVR.ActiveCfg = Release|AVR
+		{B5A692B8-9DCB-40B7-8BDF-EE24520B1A67}.Release|AVR.Build.0 = Release|AVR
+		{8512D582-CD9E-4F92-8CBD-D47F100302E8}.Debug|AVR.ActiveCfg = Debug|AVR
+		{8512D582-CD9E-4F92-8CBD-D47F100302E8}.Debug|AVR.Build.0 = Debug|AVR
+		{8512D582-CD9E-4F92-8CBD-D47F100302E8}.Release|AVR.ActiveCfg = Release|AVR
+		{8512D582-CD9E-4F92-8CBD-D47F100302E8}.Release|AVR.Build.0 = Release|AVR
+		{1C866D1D-C187-4940-9130-4A0C7F1966E5}.Debug|AVR.ActiveCfg = Debug|AVR
+		{1C866D1D-C187-4940-9130-4A0C7F1966E5}.Debug|AVR.Build.0 = Debug|AVR
+		{1C866D1D-C187-4940-9130-4A0C7F1966E5}.Release|AVR.ActiveCfg = Release|AVR
+		{1C866D1D-C187-4940-9130-4A0C7F1966E5}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8512D582-CD9E-4F92-8CBD-D47F100302E8} = {C1FDA463-95A1-443B-824B-3DA29A0DF5FD}
+		{1C866D1D-C187-4940-9130-4A0C7F1966E5} = {C1FDA463-95A1-443B-824B-3DA29A0DF5FD}
+	EndGlobalSection
+EndGlobal
