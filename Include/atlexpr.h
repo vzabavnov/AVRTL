@@ -16,14 +16,19 @@ namespace atl {
 namespace expr {
 
 /// <summary>
-/// Generate a mask with specified length
-/// </summary
-constexpr uint8_t CreateMask(const int length) {
-	return length <= 0 ? 0 : (1 << (length - 1)) | CreateMask(length - 1);
+/// create mask for a single bit specified
+/// </summary>
+template<typename T = uint8_t>
+constexpr T CreateBitMask(const int bit) {
+	return ((T)1) << bit;
 }
 
-constexpr uint8_t CreateBitMask(const int bit) {
-	return 1 << bit;
+/// <summary>
+/// Generate a mask with specified length
+/// </summary
+template<typename T = uint8_t>
+constexpr T CreateMask(const int length) {
+	return length <= 0 ? (T)0 : CreateBitMask<T>(length -1 ) | CreateMask<T>(length - 1);
 }
 
 }

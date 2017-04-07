@@ -15,9 +15,9 @@
 #include <atlpin.h>
 #include <atlstd.h>
 
-const atl::Pin redLED = atl::Pin(atl::std::PortB, 2);
-const atl::Pin GreenLed = atl::Pin(atl::std::PortB, 3);
-const atl::Pin YellowLED = atl::Pin(atl::std::PortB, 4);
+const atl::DigitalPin<atl::std::DigitalPortB, 2> redLED;
+const atl::DigitalPin<atl::std::DigitalPortB, 3> GreenLed;
+const atl::DigitalPin<atl::std::DigitalPortB, 4> YellowLED;
 
 int main(void)
 {

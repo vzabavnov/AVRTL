@@ -17,13 +17,13 @@
 
 int main(void)
 {
-	const atl::Port thePort = atl::std::PortB;
+	const atl::std::DigitalPortB thePort;
 	const int pinMask = atl::expr::CreateBitMask(3);
     thePort.Direction = atl::Output;
 
     while (1) 
     {
-		thePort.Set(pinMask);
+		thePort.Write(pinMask);
 		_delay_ms(1000);
 		thePort.Clear();
 		_delay_ms(1000);
