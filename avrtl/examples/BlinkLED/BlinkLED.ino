@@ -2,14 +2,14 @@
 
 using namespace atl;
 
-constexpr Pin RedLED = Pin(atl::std::PortB, 2);
-constexpr Pin GreenLED = Pin(atl::std::PortB, 3);
-constexpr Pin YellowLED = Pin(atl::std::PortB, 4);
+const atl::DigitalPin<atl::std::DigitalPortB, 2> RedLED;
+const atl::DigitalPin<atl::std::DigitalPortB, 3> GreenLED;
+const atl::DigitalPin<atl::std::DigitalPortB, 4> YellowLED;
 
 void setup() {
-  RedLED.Direction = atl::Output;
-  GreenLED.Direction = atl::Output;
-  YellowLED.Direction = atl::Output;
+  RedLED.Direction.AsOutput();
+  GreenLED.Direction.AsOutput();
+  YellowLED.Direction.AsOutput();
 
   RedLED.Clear();
   GreenLED.Set();

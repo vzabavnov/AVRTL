@@ -16,26 +16,26 @@
 #include <atlstd.h>
 
 const atl::DigitalPin<atl::std::DigitalPortB, 2> redLED;
-const atl::DigitalPin<atl::std::DigitalPortB, 3> GreenLed;
+const atl::DigitalPin<atl::std::DigitalPortB, 3> GreenLED;
 const atl::DigitalPin<atl::std::DigitalPortB, 4> YellowLED;
 
 int main(void)
 {
 	redLED.Direction = atl::Output;
-	GreenLed.Direction = atl::Output;
+	GreenLED.Direction = atl::Output;
 	YellowLED.Direction = atl::Output;
 
 	redLED.Clear();
-	GreenLed.Set();
+	GreenLED.Set();
 	YellowLED.Set();
 
     while (1) 
     {
 		_delay_ms(1000);
 		redLED.Flip();
-		GreenLed.Flip();
+		GreenLED.Flip();
 		_delay_ms(1000);
-		GreenLed.Flip();
+		GreenLED.Flip();
 		YellowLED.Flip();
 		_delay_ms(1000);
 		YellowLED.Flip();
