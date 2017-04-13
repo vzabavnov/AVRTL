@@ -59,7 +59,7 @@ public:
 /// <typeparam name="TWrite">
 ///	The type of writing port. The port must specify type DataType and must support method void Write(const DataType value);
 /// </typeparam>
-template<typename TRead, typename TWrite>
+template<typename TRead, typename TWrite = TRead>
 struct ReadWritePort {
 	typedef TRead ReadPortType;
 	typedef TWrite WriteportType;
@@ -166,9 +166,9 @@ struct DataDirectionPort {
 	}
 };
 
-template <typename TDataPort, typename TDirectionPort>
+template <typename TDigitalPort, typename TDirectionPort>
 struct DigitalPort {
-	typedef TDataPort DataPortType;
+	typedef TDigitalPort DataPortType;
 	typedef TDirectionPort DataDirectionPortType;
 	typedef typename DataPortType::DataType DataType;
 
@@ -203,91 +203,52 @@ public:
 	}
 };
 
-class PortDirection {
-	const int _portAddr;
-	const int _ddrAddr;
+/// <summary>
+///	The port to read and write a digital number of type specified by TDigitalPort::DataType
+/// </summary>
+/// <typeref name="TReadWritePort">
+/// The port to read and write data to and from. the port must support methods DataType Read() and void Write(DataType value), as well as tghe port must define type DataType.
+/// </typeref>
+/// <typeref name="length">
+/// Specified how many bits is used for the number
+/// </typeref>
+/// <typeref name="offset">
+/// Specified the offset.
+/// </typeref>
+template <typename TReadWritePort, int length, int offset = 0>
+struct NumericPort {
+	typedef TReadWritePort DigitalPortType;
+	typedef typename DigitalPortType::DataType DataType;
+
+	const DataType Mask = atl::expr::CreateMask(length, offset);
+	const int Offset = offset;
+private:
+	const DigitalPortType _port = DigitalPortType();
 public:
-	constexpr PortDirection(const int portAddr, const int ddrAddr) : _portAddr(portAddr), _ddrAddr(ddrAddr) { }
-	constexpr PortDirection(const PortDirection & dd) : _portAddr(dd._portAddr), _ddrAddr(dd._ddrAddr) { }
-
-	operator uint8_t() const {
-		return _SFR_IO8(_ddrAddr);
+	constexpr DataType CreateValueToWrite(const DataType value) {
+		return (value << Offset) & Mask;
 	}
 
-	void inline operator = (const uint8_t value) const {
-		_SFR_IO8(_ddrAddr) = value;
+	constexpr DataType CreateValieFromRead(const DataType value) {
+		return (value & Mask) >> Offset;
 	}
 
-	void inline operator = (const DirectionMode mode) const {
-		switch(mode) {
-			case Input:
-			AsInput();
-			break;
-			case PullUp:
-			AsPullUp();
-			break;
-			default:
-			AsOutput();
-		}
-	}
-	
-	void inline AsInput() const {
-		_SFR_IO8(_ddrAddr) = 0;
-		_SFR_IO8(_portAddr) = 0;
-	}
-
-	void inline AsPullUp() const {
-		_SFR_IO8(_ddrAddr) = 0;
-		_SFR_IO8(_portAddr) = 0xff;
-	}
-	
-	void inline AsOutput() const {
-		_SFR_IO8(_ddrAddr) = 0xff;
-	}
-};
-
-class Port {
-	const int _portAddr;
-	const int _pinAddr;
-public:
-	const PortDirection Direction;
-	const int Length;
-	const uint8_t Mask;
-	
-	constexpr Port(const int portAddr, const int ddrAddr, const int pinAddr, const int length = sizeof(uint8_t)) : _portAddr(portAddr), _pinAddr(pinAddr),
-		Direction(portAddr, ddrAddr), 
-		Length(length), 
-		Mask(expr::CreateMask(length)) 
-		{ }
-
-	constexpr Port(const Port & port) : _portAddr(port._portAddr), _pinAddr(port._pinAddr),
-		Direction(port.Direction), 
-		Length(port.Length), Mask(port.Mask) { }
-
-	void inline Set(const uint8_t value) const
+	inline void Write(const DataType value) const
 	{
-		_SFR_IO8(_portAddr) = value;
+		_port.Write((value << Offset) & Mask);
 	}
 
-	void inline Clear() const{
-		Set(0);
+	inline DataType Read() const {
+		return (_port.Read() & Mask) >> Offset;
 	}
 
-	uint8_t inline Get() const{
-		return _SFR_IO8(_pinAddr);
-	}
-
-	void inline Flip() const {
-		_SFR_IO8(_pinAddr) ^= 0xff & Mask;
-	}
-
-	void operator = (const uint8_t value) const
+	void operator = (const DataType value) const
 	{
-		Set(value);
+		Write(value);
 	}
 
-	operator uint8_t() const{
-		return Get();
+	operator DataType() const{
+		return Read();
 	}
 };
 

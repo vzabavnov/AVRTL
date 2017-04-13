@@ -31,6 +31,14 @@ constexpr T CreateMask(const int length) {
 	return length <= 0 ? (T)0 : CreateBitMask<T>(length -1 ) | CreateMask<T>(length - 1);
 }
 
+/// <summary>
+/// Generate a mask with specified length
+/// </summary
+template<typename T = uint8_t>
+constexpr T CreateMask(const int length, const int offset) {
+	return CreateMask(length) << offset;
+}
+
 }
 }
 

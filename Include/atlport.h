@@ -59,7 +59,7 @@ public:
 /// <typeparam name="TWrite">
 ///	The type of writing port. The port must specify type DataType and must support method void Write(const DataType value);
 /// </typeparam>
-template<typename TRead, typename TWrite>
+template<typename TRead, typename TWrite = TRead>
 struct ReadWritePort {
 	typedef TRead ReadPortType;
 	typedef TWrite WriteportType;
@@ -166,9 +166,9 @@ struct DataDirectionPort {
 	}
 };
 
-template <typename TDataPort, typename TDirectionPort>
+template <typename TDigitalPort, typename TDirectionPort>
 struct DigitalPort {
-	typedef TDataPort DataPortType;
+	typedef TDigitalPort DataPortType;
 	typedef TDirectionPort DataDirectionPortType;
 	typedef typename DataPortType::DataType DataType;
 
@@ -191,6 +191,55 @@ public:
 
 	inline void Flip() const {
 		_port.Write(_port.Read() ^ _port.Mask);
+	}
+
+	void operator = (const DataType value) const
+	{
+		Write(value);
+	}
+
+	operator DataType() const{
+		return Read();
+	}
+};
+
+/// <summary>
+///	The port to read and write a digital number of type specified by TDigitalPort::DataType
+/// </summary>
+/// <typeref name="TReadWritePort">
+/// The port to read and write data to and from. the port must support methods DataType Read() and void Write(DataType value), as well as tghe port must define type DataType.
+/// </typeref>
+/// <typeref name="length">
+/// Specified how many bits is used for the number
+/// </typeref>
+/// <typeref name="offset">
+/// Specified the offset.
+/// </typeref>
+template <typename TReadWritePort, int length, int offset = 0>
+struct NumericPort {
+	typedef TReadWritePort ReadWritePortType;
+	typedef typename ReadWritePortType::DataType DataType;
+
+	const DataType Mask = atl::expr::CreateMask(length, offset);
+	const int Offset = offset;
+
+	const ReadWritePortType DataPort = ReadWritePortType();
+	
+	constexpr inline DataType CreateValueToWrite(const DataType value) const {
+		return (value << Offset) & Mask;
+	}
+
+	constexpr inline DataType CreateValieFromRead(const DataType value) const {
+		return (value & Mask) >> Offset;
+	}
+
+	inline void Write(const DataType value) const
+	{
+		DataPort.Write(CreateValueToWrite(value));
+	}
+
+	inline DataType Read() const {
+		return CreateValieFromRead(DataPort.Read());
 	}
 
 	void operator = (const DataType value) const
