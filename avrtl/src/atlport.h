@@ -23,7 +23,7 @@ public:
 	constexpr static int Offset = OFFSET;
 	constexpr static int Length = length;
 	constexpr static int Address = ADDR;
-	constexpr static T Mask = expr::CreateMask(Length);
+	constexpr static T Mask = expr::CreateMask<T>(Length);
 
 	inline void Write(const T value) const {
 		(*(volatile T *)(Address + Offset)) = value;
@@ -217,42 +217,50 @@ public:
 /// </typeref>
 template <typename TReadWritePort, int length, int offset = 0>
 struct NumericPort {
-	typedef TReadWritePort DigitalPortType;
-	typedef typename DigitalPortType::DataType DataType;
+	typedef TReadWritePort ReadWritePortType;
+	typedef typename ReadWritePortType::DataType DataType;
 
-	const DataType Mask = atl::expr::CreateMask(length, offset);
 	const int Offset = offset;
-private:
-	const DigitalPortType _port = DigitalPortType();
-public:
-	constexpr DataType CreateValueToWrite(const DataType value) {
+	const int Length = length;
+
+	const DataType Mask = atl::expr::CreateMask<DataType>(length, offset);
+
+	const ReadWritePortType DataPort = ReadWritePortType();
+	
+	constexpr inline DataType CreateValueToWrite(const DataType value) const {
 		return (value << Offset) & Mask;
 	}
 
-	constexpr DataType CreateValieFromRead(const DataType value) {
+	constexpr inline DataType CreateValieFromRead(const DataType value) const {
 		return (value & Mask) >> Offset;
 	}
 
-	inline void Write(const DataType value) const
-	{
-		_port.Write((value << Offset) & Mask);
+	inline void Write(const DataType value) const {
+		DataPort.Write(CreateValueToWrite(value));
 	}
 
 	inline DataType Read() const {
-		return (_port.Read() & Mask) >> Offset;
+		return CreateValieFromRead(DataPort.Read());
 	}
 
-	void operator = (const DataType value) const
-	{
+	void operator = (const DataType value) const {
 		Write(value);
 	}
 
-	operator DataType() const{
+	operator DataType() const {
 		return Read();
 	}
 };
 
-}
 
+template <int... pins>
+struct PinPort;
+
+template <int pin>
+struct PinPort {
+	
+};
+
+}
 
 #endif /* ATLPORT_H_ */

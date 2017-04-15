@@ -18,26 +18,36 @@ namespace expr {
 /// <summary>
 /// create mask for a single bit specified
 /// </summary>
-template<typename T = uint8_t, int bit>
-constexpr T CreateBitMask() {
+template<typename T, int bit>
+constexpr inline T CreateBitMask() {
 	return  bit < 0 ? 0 : ((T)1) << bit;
 }
 
 /// <summary>
 /// create mask for specified bits
 /// </summary>
-template<typename T = uint8_t, int bit1, int bit2, int... pins>
-constexpr T CreateBitMask() {
+template<typename T, int bit1, int bit2, int... pins>
+constexpr inline T CreateBitMask() {
 	return CreateBitMask<T, bit1>() | CreateBitMask<T, bit2, pins...>();
 }
 
-template<typename T = uint8_t>
-constexpr T CreateMask(int length, int offset = 0) {
+template<typename T>
+constexpr inline T CreateMask(int length, int offset = 0) {
 	return length <= 0 	? T(0) : CreateMask<T>(length - 1, offset);
 }
 
+template <typename DataType, int length, int offset = 0>
+constexpr inline DataType ConvertToValueWithLengthAndOffset(const DataType value) {
+	return (value << offset) & CreateMask<DataType>(length, offset);
+}
+
+template <typename DataType, int length, int offset = 0>
+constexpr inline DataType ConvertFromValieWithLengthAndOffset(const DataType value) {
+	return (value & CreateMask<DataType>(length, offset)) >> offset;
+}
+
 template<typename T>
-constexpr inline T ValueFromPins(T const value) {
+constexpr inline T ConvertValueFromPins(T const value) {
 	return  T(0);
 }
 
@@ -45,16 +55,15 @@ constexpr inline T ValueFromPins(T const value) {
 /// convert value from specified pins to a number
 /// </summary>
 template<typename T, int pin, int... pins>
-constexpr inline T ValueFromPins(T const value) {
-	const T masked = value & CreateBitMask<T, pin>();
+constexpr inline T ConvertValueFromPins(T const value) {
 	return ((pin > sizeof...(pins))
-	? masked >> (pin - sizeof...(pins))
-	: masked << (sizeof...(pins) - pin))
-	| ValueFromPins<T, pins...>(value);
+			? (value & CreateBitMask<T, pin>()) >> (pin - sizeof...(pins))
+			: (value & CreateBitMask<T, pin>()) << (sizeof...(pins) - pin))
+		| ConvertValueFromPins<T, pins...>(value);
 }
 
 template<typename T>
-constexpr inline T ValueToPins(T const value) {
+constexpr inline T ConvertValueToPins(T const value) {
 	return  T(0);
 }
 
@@ -62,12 +71,11 @@ constexpr inline T ValueToPins(T const value) {
 /// convert specified value to specified pins
 /// </summary>
 template<typename T, int pin, int... pins>
-constexpr inline T ValueToPins(T const value) {
-	const T masked = value & CreateBitMask<T, sizeof...(pins)>();
+constexpr inline T ConvertValueToPins(T const value) {
 	return ((pin > sizeof...(pins))
-	? masked << (pin - sizeof...(pins))
-	: masked >> (sizeof...(pins) - pin)
-	) | ValueToPins<T, pins...>(value);
+			? (value & CreateBitMask<T, sizeof...(pins)>()) << (pin - sizeof...(pins))
+			: (value & CreateBitMask<T, sizeof...(pins)>()) >> (sizeof...(pins) - pin)) 
+		| ConvertValueToPins<T, pins...>(value);
 }
 
 }

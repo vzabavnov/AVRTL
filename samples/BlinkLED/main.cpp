@@ -18,7 +18,7 @@
 int main(void)
 {
 	const atl::std::DigitalPortB thePort;
-	const int pinMask = atl::expr::CreateBitMask(3);
+	const int pinMask = atl::expr::CreateBitMask<uint8_t, 3>();
     thePort.Direction = atl::Output;
 
     while (1) 
